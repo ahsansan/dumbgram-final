@@ -1,0 +1,9 @@
+.no-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+.no-message {
+  font-size: 23px;
+}

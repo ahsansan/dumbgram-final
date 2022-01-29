@@ -1,0 +1,59 @@
+.detail-dm-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  height: 70vh;
+}
+
+.detail-dm-by-person {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  padding-left: 15px;
+  padding-top: 10px;
+}
+
+.detail-dm-photo {
+  flex: 20%;
+  padding-left: 10px;
+}
+
+.detail-dm-content {
+  flex: 80%;
+}
+
+.detail-dm-circlement {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+}
+
+.detail-dm-person-message {
+  padding-top: 5px;
+  font-size: 19px;
+  color: #ababab;
+}
+
+.dm-reply {
+  width: 90%;
+  margin-top: 25px;
+}
+
+.dm-textarea {
+  margin-bottom: 20px;
+  margin-left: 20px;
+  background-color: #d2d2d240;
+  border: 2px solid #d2d2d2;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 17px;
+  color: #b1b1b1;
+  padding: 10px;
+  width: 90%;
+  box-sizing: border-box;
+  resize: none;
+  height: 50px;
+}

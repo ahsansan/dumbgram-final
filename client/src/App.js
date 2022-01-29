@@ -1,0 +1,86 @@
+// Import CSS
+import "./styles/styles.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// Import React Router DOM
+import { Routes, Route, useNavigate } from "react-router-dom";
+
+// React
+import { useContext, useEffect } from "react";
+
+// Component
+import { UserContext } from "./context/userContext";
+import { API, setAuthToken } from "./config/api";
+
+// Import Page
+import LandingPage from "./pages/LandingPage";
+import ExplorePage from "./pages/ExplorePage";
+import FeedPage from "./pages/FeedPage";
+import ProfilePage from "./pages/ProfilePage";
+import CreatePostPage from "./pages/CreatePostPage";
+import EditProfilePage from "./pages/EditProfilePage";
+import NoMessagePage from "./pages/NoMessagePage";
+import MessageZaynPage from "./pages/MessagesZaynPage";
+
+// init token pada axios setiap kali aplikasi direfresh
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+function App() {
+  const navigate = useNavigate();
+  const [state, dispatch] = useContext(UserContext);
+
+  // ketika reload jika masih login
+  useEffect(() => {
+    if (state.isLogin == false) {
+      navigate("/auth");
+    } else {
+      navigate("/");
+    }
+  }, [state]);
+
+  const checkUser = async () => {
+    try {
+      const response = await API.get("/check-auth");
+
+      if (response.status === 404) {
+        return dispatch({
+          type: "AUTH_ERROR",
+        });
+      }
+
+      let payload = response.data.data.user;
+      payload.token = localStorage.token;
+
+      dispatch({
+        type: "USER_SUCCESS",
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // loading data
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  return (
+    <Routes>
+      {/* landing page */}
+      <Route path="/auth" exact element={<LandingPage />} />
+      <Route exact path="/" element={<FeedPage />} />
+      <Route exact path="/explore" element={<ExplorePage />} />
+      <Route exact path="/profile" element={<ProfilePage />} />
+      <Route exact path="/create-post" element={<CreatePostPage />} />
+      <Route exact path="/edit-profile" element={<EditProfilePage />} />
+      <Route exact path="/message" element={<NoMessagePage />} />
+      <Route exact path="/message-detail" element={<MessageZaynPage />} />
+    </Routes>
+  );
+}
+
+export default App;

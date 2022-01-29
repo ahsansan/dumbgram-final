@@ -1,0 +1,132 @@
+.container {
+    width: 100%;
+}
+
+.left-menu-container {
+    width: 350px;
+    padding-right: 25px;
+}
+
+.left-menu-container ul li {
+    list-style: none;
+}
+
+.left-menu-dumbgram {
+    font-family: Rochester;
+    color: #fff;
+    font-size: 30px;
+    background: -webkit-linear-gradient(90deg, #4DD4F7 18.8%, #9090FB 40.43%, #FF6B81 60.14%, #FBDF63 79.36%, #D9F0F4 97.15%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 25px #CECECE;
+    padding-left: 10px;
+    padding-bottom: 40px;
+}
+
+.left-menu-edit-container {
+    display: flex;
+    justify-content: end;
+    align-items: flex-start;
+}
+
+.left-menu-edit-container button {
+    border-style: none;
+    background-color: transparent;
+}
+
+.left-menu-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.left-menu-up img {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.left-menu-up h2 {
+    font-size: 24;
+}
+
+.left-menu-up p {
+    font-size: 14;
+    font-weight: 400;
+}
+
+.left-menu-up p .username {
+    font-size: 14;
+    color: rgba(171, 171, 171, 1);
+}
+
+.left-menu-statsprofile {
+    display: flex;
+    flex-direction: inline;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.left-menu-count {
+    flex: 1;
+    text-align: center;
+}
+
+.left-menu-count-center {
+    flex: 1;
+    text-align: center;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-color: grey;
+    padding: 2px 5px;
+}
+
+.left-menu-count, .left-menu-count-center .head {
+    color: #ABABAB;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.left-menu-count, .left-menu-count-center .content {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.data-diri {
+    margin-bottom: 20px;
+}
+
+.left-menu-down {
+    margin-top: 20px;
+}
+
+.left-menu-down ul {
+    padding-top: 10px;
+}
+
+.left-menu-down ul li {
+    padding-bottom: 10px;
+}
+
+.left-menu-down ul li a {
+    text-decoration: none;
+    color: #ABABAB;
+}
+
+.left-menu-down ul li img {
+    margin-right: 25px;
+}
+
+.icon-notifikasi {
+    color: #ABABAB;
+    font-size: 25px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
