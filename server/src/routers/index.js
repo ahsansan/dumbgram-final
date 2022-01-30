@@ -18,6 +18,7 @@ const {
   likeFeed,
   commentsFeed,
   addComment,
+  getFeed,
 } = require("../controllers/feed");
 const { addChat, getMessage } = require("../controllers/message");
 
@@ -32,6 +33,7 @@ router.get("/check-auth", auth, checkAuth);
 router.get("/users", auth, getUsers);
 router.patch("/user/:id", auth, uploadFile("image"), editUser);
 router.delete("/user/:id", deleteUser);
+router.get("/feedscount/:id", getFeed);
 router.get("/followers/:id", followers);
 router.get("/followings/:id", followings);
 router.post("/feed", auth, uploadFile("fileName"), addFeed);

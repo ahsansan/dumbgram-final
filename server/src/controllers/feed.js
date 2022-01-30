@@ -340,3 +340,45 @@ exports.addComment = async (req, res) => {
     });
   }
 };
+
+exports.getFeed = async (req, res) => {
+  try {
+    // menampilkan id dari token
+
+    const { id } = req.params;
+
+    // menampilkan semua data
+    const feeds = await tbFeed.findAll({
+      where: {
+        idUser: id,
+      },
+      include: {
+        model: tbUser,
+        as: "user",
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "bio", "password", "email"],
+        },
+      },
+      order: [["id", "DESC"]],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "password"],
+      },
+    });
+
+    // tampikan ketika berhasil
+    res.send({
+      status: "success",
+      data: {
+        feeds,
+      },
+    });
+
+    // ketika server erorr
+  } catch (error) {
+    console.log(error);
+    res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};

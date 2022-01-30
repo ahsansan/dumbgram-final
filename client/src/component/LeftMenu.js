@@ -9,100 +9,150 @@ import {
   faHome,
   faCompass,
 } from "@fortawesome/free-solid-svg-icons";
+// React
+import { useContext, useState, useEffect } from "react";
 // React Router Dom
 import { Link } from "react-router-dom";
+// Import API
+import { API } from "../config/api";
+// Context
+import { UserContext } from "../context/userContext";
 
 function LeftMenu() {
-  const profiles = [
-    {
-      photo: "/images/photos/Lisa.png",
-      name: "Lisa",
-      username: "@lalalisa_m",
-      post: "200",
-      followers: "51.2M",
-      following: "1",
-      bio: "Rapper in Black Pink, Brand Ambasador Penshoppe.",
-    },
-  ];
+  // feed
+  const [feed, setFeed] = useState([]);
+
+  // follower
+  const [follower, setFollower] = useState([]);
+
+  // following
+  const [following, setFollowing] = useState([]);
+
+  // id user login
+  const [state, dispatch] = useContext(UserContext);
+
+  // logout
+  const handleLogout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
+
+  // feed
+  const loadFeed = async () => {
+    try {
+      const response = await API.get(`/feedscount/${state.user.id}`);
+      setFeed(response.data.data.feeds.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // followers
+  const loadFollower = async () => {
+    try {
+      const response = await API.get(`/followers/${state.user.id}`);
+      setFollower(response.data.data.id_user.followers.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // followings
+  const loadFollowing = async () => {
+    try {
+      const response = await API.get(`/followings/${state.user.id}`);
+      setFollowing(response.data.data.id_user.followings.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadFeed();
+  });
+
+  useEffect(() => {
+    loadFollower();
+  });
+
+  useEffect(() => {
+    loadFollowing();
+  });
 
   return (
     <div className="container">
       <div className="left-menu-container">
-        {profiles.map((profile, index) => (
-          <div key={index}>
-            <div className="left-menu-edit-container">
-              <Link to="/edit-profile">
-                <FontAwesomeIcon className="icon-notifikasi" icon={faEdit} />
-              </Link>
+        <div>
+          <div className="left-menu-edit-container">
+            <Link to="/edit-profile">
+              <FontAwesomeIcon className="icon-notifikasi" icon={faEdit} />
+            </Link>
+          </div>
+          <div className="left-menu-up">
+            <div className="circle">
+              <img
+                src={process.env.PUBLIC_URL + `${state.user.image}`}
+                alt="Profile"
+              />
             </div>
-            <div className="left-menu-up">
-              <div>
-                <img
-                  src={process.env.PUBLIC_URL + `${profile.photo}`}
-                  alt="Profile"
-                />
+            <div>
+              <h2>{state.user.fullName}</h2>
+              <p className="username">{state.user.username}</p>
+            </div>
+            <div className="left-menu-statsprofile">
+              <div className="left-menu-count">
+                <p className="head">Post</p>
+                <p className="content">{feed}</p>
               </div>
-              <div>
-                <h2>{profile.name}</h2>
-                <p className="username">{profile.username}</p>
+              <div className="left-menu-count-center">
+                <p className="head">Followers</p>
+                <p className="content">{follower}</p>
               </div>
-              <div className="left-menu-statsprofile">
-                <div className="left-menu-count">
-                  <p className="head">Post</p>
-                  <p className="content">{profile.post}</p>
-                </div>
-                <div className="left-menu-count-center">
-                  <p className="head">Followers</p>
-                  <p className="content">{profile.followers}</p>
-                </div>
-                <div className="left-menu-count">
-                  <p className="head">Following</p>
-                  <p className="content">{profile.following}</p>
-                </div>
+              <div className="left-menu-count">
+                <p className="head">Following</p>
+                <p className="content">{following}</p>
               </div>
-            </div>
-            <div className="data-diri">
-              <p>{profile.bio}</p>
-            </div>
-            <div className="left-menu-down">
-              <hr />
-              <ul>
-                <li>
-                  <Link to="/feed">
-                    <FontAwesomeIcon
-                      className="icon-notifikasi"
-                      icon={faHome}
-                    />{" "}
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/explore">
-                    <FontAwesomeIcon
-                      className="icon-notifikasi"
-                      icon={faCompass}
-                    />{" "}
-                    Explore
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="left-menu-down">
-              <hr />
-              <ul>
-                <li>
-                  <Link to="/">
-                    <FontAwesomeIcon
-                      className="icon-notifikasi"
-                      icon={faSignInAlt}
-                    />{" "}
-                    Logout
-                  </Link>
-                </li>
-              </ul>
             </div>
           </div>
-        ))}
+          <div className="data-diri">
+            <p>{state.user.bio}</p>
+          </div>
+          <div className="left-menu-down">
+            <hr />
+            <ul>
+              <li>
+                <Link to="/">
+                  <FontAwesomeIcon className="icon-notifikasi" icon={faHome} />{" "}
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/explore">
+                  <FontAwesomeIcon
+                    className="icon-notifikasi"
+                    icon={faCompass}
+                  />{" "}
+                  Explore
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="left-menu-down">
+            <hr />
+            <ul>
+              <li>
+                <div className="logout" onClick={handleLogout}>
+                  <FontAwesomeIcon
+                    className="icon-notifikasi"
+                    icon={faSignInAlt}
+                  />{" "}
+                  Logout
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

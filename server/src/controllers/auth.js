@@ -94,6 +94,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const data = req.body;
+    const path = process.env.UPLOAD_PATH;
 
     // Validasi input
     const schema = joi.object({
@@ -158,9 +159,12 @@ exports.login = async (req, res) => {
       status: "success",
       data: {
         user: {
+          id: dataOnTable.id,
           fullName: dataOnTable.fullName,
           username: dataOnTable.username,
           email: dataOnTable.email,
+          bio: dataOnTable.bio,
+          image: path + dataOnTable.image,
           token,
         },
       },
@@ -180,11 +184,11 @@ exports.checkAuth = async (req, res) => {
   try {
     const path = process.env.UPLOAD_PATH;
 
-    const id = req.idUser;
+    const id = req.user.id;
 
     const dataUser = await tbUser.findOne({
       where: {
-        id,
+        id: id,
       },
       attributes: {
         exclude: ["createdAt", "updatedAt", "password"],
