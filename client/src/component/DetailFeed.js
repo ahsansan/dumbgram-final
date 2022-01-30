@@ -1,3 +1,5 @@
+// Hooks
+import { useState, useEffect, useContext } from "react";
 // Bootstrap
 import { Modal } from "react-bootstrap";
 // Custom CSS
@@ -11,9 +13,25 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 // React Router Dom
 import { Link } from "react-router-dom";
+// Components
+import { UserContext } from "../context/userContext";
+import { API } from "../config/api";
+const path = "http://localhost:5000/uploads/";
 
 function DetailFeed(props) {
-  const { show, handleClose } = props;
+  const { show, handleClose, feedsid } = props;
+
+  const [state, dispatch] = useContext(UserContext);
+  const [users, setUsers] = useState({});
+
+  const loadUsers = async () => {
+    try {
+      const response = await API.get(`/user/${feedsid.user.id}`);
+      setUsers(response.data.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const comments = [
     {
@@ -28,6 +46,11 @@ function DetailFeed(props) {
     },
   ];
 
+  // Load user
+  useEffect(() => {
+    loadUsers();
+  }, [feedsid]);
+
   return (
     <div>
       {/* modal detail feed */}
@@ -40,7 +63,7 @@ function DetailFeed(props) {
         <div className="detail-container">
           <div className="detail-image">
             <img
-              src={process.env.PUBLIC_URL + "/images/photos/Detail.png"}
+              src={process.env.PUBLIC_URL + path + `${feedsid.fileName}`}
               alt="Detail"
               className="gambarfeed"
             />
@@ -49,15 +72,15 @@ function DetailFeed(props) {
             <div className="detail-uploader">
               <div className="foto-uploader">
                 <img
-                  src={process.env.PUBLIC_URL + "/images/photos/Zayn.png"}
+                  src={process.env.PUBLIC_URL + path + `${feedsid.user.image}`}
                   alt="Uploader"
                 />
               </div>
               <div className="data-uploader">
-                <Link to="/profile">
-                  <p className="nama-uploader">Zayn</p>
+                <Link to={`/profile/${feedsid.user.id}`}>
+                  <p className="nama-uploader">{feedsid.user.fullName}</p>
                 </Link>
-                <p className="caption-uploader">To begin again</p>
+                <p className="caption-uploader">{feedsid.caption}</p>
               </div>
             </div>
             {comments.map((comment, index) => (
@@ -93,7 +116,7 @@ function DetailFeed(props) {
                 />
               </div>
               <div className="likers">
-                <p>127.135 Like</p>
+                <p>{feedsid.like} Like</p>
               </div>
               <div className="kolom-komentar">
                 <input type="text" placeholder="Comment" />

@@ -15,9 +15,14 @@ import { Link } from "react-router-dom";
 import Aos from "aos";
 import "aos/dist/aos.css";
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 // Detail Feed
 import DetailFeed from "./DetailFeed";
+// API and Context
+import { UserContext } from "../context/userContext";
+import { API } from "../config/api";
+// path
+const path = "http://localhost:5000/uploads/";
 
 function Feed() {
   // Animation
@@ -25,79 +30,46 @@ function Feed() {
     Aos.init({ duration: 1000 });
   }, []);
   // Detail Feed Modal
+  const [state, dispatch] = useContext(UserContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // Data Feed
-  const imagesFeed = [
-    {
-      id: 1,
-      image: "/images/photos/Rectangle 6.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "126.100 Like",
-    },
-    {
-      id: 2,
-      image: "/images/photos/Rectangle 3.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "156.100 Like",
-    },
-    {
-      id: 3,
-      image: "/images/photos/Rectangle 10.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "127.135 Like",
-    },
-    {
-      id: 4,
-      image: "/images/photos/Rectangle 5.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "128.135 Like",
-    },
-    {
-      id: 5,
-      image: "/images/photos/Rectangle 9.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "169.235 Like",
-    },
-    {
-      id: 6,
-      image: "/images/photos/Rectangle 8.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "199.235 Like",
-    },
-    {
-      id: 7,
-      image: "/images/photos/Rectangle 4.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "118.235 Like",
-    },
-    {
-      id: 8,
-      image: "/images/photos/Rectangle 12.png",
-      uploader: "zayn",
-      ppuploader: "/images/photos/Zayn.png",
-      like: "118.235 Like",
-    },
-  ];
+  // follow feed
+  const [feedFollow, setFeedFollow] = useState([]);
+  const [feedsid, getFeedById] = useState({});
+  // users
+  const [users, setUsers] = useState([]);
+  // load Feed
+  const showFeedFollow = async () => {
+    try {
+      const response = await API.get(`/feed/${state.user.id}`);
+      setFeedFollow(response.data.data); // id follow
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // order feed
+  feedFollow.reverse();
+
+  // Load loadFeedFollow
+  useEffect(() => {
+    showFeedFollow();
+  }, [feedsid]);
 
   return (
     <div data-aos="fade-up">
       <Masonry columnsCount={3}>
-        {imagesFeed.map((feed) => (
-          <div className="feed-container" key={feed.id}>
+        {feedFollow.map((feed) => (
+          <div
+            className="feed-container"
+            key={feed.id}
+            onClick={() => getFeedById(feed)}
+          >
             <div className="feed-gambar">
               <img
                 onClick={handleShow}
                 alt="Gambar Feed"
-                src={process.env.PUBLIC_URL + `${feed.image}`}
+                src={process.env.PUBLIC_URL + path + `${feed.fileName}`}
                 className="images-feed"
               />
             </div>
@@ -105,12 +77,14 @@ function Feed() {
               <div className="prof-box">
                 <div className="profile">
                   <img
-                    src={process.env.PUBLIC_URL + `${feed.ppuploader}`}
+                    src={process.env.PUBLIC_URL + path + `${feed.user.image}`}
                     className="card-profiles"
                     alt="pp"
                   />
                   <p className="post-name">
-                    <Link to="/profile">{feed.uploader}</Link>
+                    <Link to={`/profile/${feed.user.id}`}>
+                      {feed.user.username}
+                    </Link>
                   </p>
                 </div>
                 <div className="icon-container">
@@ -122,12 +96,12 @@ function Feed() {
             </div>
             <div className="navlike">
               <div>
-                <p className="like-total">{feed.like}</p>
+                <p className="like-total">{feed.like} Like</p>
               </div>
             </div>
           </div>
         ))}
-        <DetailFeed show={show} handleClose={handleClose} />
+        <DetailFeed show={show} handleClose={handleClose} feedsid={feedsid} />
       </Masonry>
     </div>
   );

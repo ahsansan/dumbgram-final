@@ -6,6 +6,7 @@ const router = express.Router();
 const { register, login, checkAuth } = require("../controllers/auth");
 const {
   getUsers,
+  getUser,
   editUser,
   deleteUser,
   followers,
@@ -31,6 +32,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.get("/check-auth", auth, checkAuth);
 router.get("/users", auth, getUsers);
+router.get("/user/:id", auth, getUser);
 router.patch("/user/:id", auth, uploadFile("image"), editUser);
 router.delete("/user/:id", deleteUser);
 router.get("/feedscount/:id", getFeed);

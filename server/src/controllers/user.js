@@ -27,6 +27,44 @@ exports.getUsers = async (req, res) => {
   }
 };
 
+exports.getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const path = process.env.UPLOAD_PATH;
+
+    const userData = await tbUser.findOne({
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "password"],
+      },
+      where: {
+        id,
+      },
+    });
+
+    res.send({
+      status: "success",
+      message: "User Successfully Get Detail",
+      data: {
+        user: {
+          username: userData.username,
+          email: userData.email,
+          fullName: userData.fullName,
+          bio: userData.bio,
+          id: userData.id,
+          image: path + userData.image,
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
+
 exports.editUser = async (req, res) => {
   try {
     const id = req.params.id;
