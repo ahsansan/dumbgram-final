@@ -74,7 +74,7 @@ function App() {
       <Route exact path="/" exact element={<LandingPage />} />
       <Route exact path="/feed" element={<FeedPage />} />
       <Route exact path="/explore" element={<ExplorePage />} />
-      <Route exact path="/profile" element={<ProfilePage />} />
+      <Route exact path="/profile/:id" element={<ProfilePage />} />
       <Route exact path="/create-post" element={<CreatePostPage />} />
       <Route exact path="/edit-profile" element={<EditProfilePage />} />
       <Route exact path="/message" element={<NoMessagePage />} />

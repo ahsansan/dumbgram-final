@@ -88,7 +88,9 @@ function DetailFeed({ show, handleClose, feedsId }) {
                     />
                   </div>
                   <div className="data-komen">
-                    <p className="nama-komen">{comment.user.fullName}</p>
+                    <Link to={`/profile/${comment.user.id}`}>
+                      <p className="nama-komen">{comment.user.fullName}</p>
+                    </Link>
                     <p className="caption-komen">{comment.comment}</p>
                   </div>
                 </div>

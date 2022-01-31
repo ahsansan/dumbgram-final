@@ -1,6 +1,6 @@
 import Profile from "../component/Profile";
 import Header from "../component/Header";
-import Feed from "../component/Feed";
+import FeedProfile from "../component/FeedProfile";
 
 function ProfilePage() {
   return (
@@ -12,10 +12,7 @@ function ProfilePage() {
         </div>
         <div className="home-right">
           <div>
-            <h1 className="ps-5">Hey, Zayn</h1>
-            <div>
-              <Feed />
-            </div>
+            <FeedProfile />
           </div>
         </div>
       </div>
