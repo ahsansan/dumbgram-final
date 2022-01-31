@@ -6,21 +6,22 @@ import { Form, Button, Modal, Alert } from "react-bootstrap";
 import "../styles/components/auth.css";
 // Sweet alert
 import Swal from "sweetalert2";
-// Import Component
-import Login from "./Login";
 // Import API
 import { API } from "../config/api";
 
 function Register(props) {
   // register
   const [show, setShow] = useState(props.isOpen);
-  const handleRegisterClose = () => setShow(false);
+  const handleRegisterClose = () => {
+    setShow(false);
+    props.isClose();
+  };
 
   // login
-  const [showLogin, setShowLogin] = useState(false);
   const handleLoginModal = () => {
-    setShow(!show);
-    setShowLogin(!showLogin);
+    setShow(false);
+    props.isClose();
+    props.isOpenLogin();
   };
 
   // message
@@ -108,7 +109,6 @@ function Register(props) {
   return (
     <>
       {/* Modal */}
-      {showLogin && <Login isOpen={true} />}
       <Modal
         dialogClassName="info-modal"
         show={show}

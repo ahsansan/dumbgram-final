@@ -7,12 +7,12 @@ import Login from "../component/Login";
 
 function Welcome() {
   // login
-  const [isClickLogin, setClickLogin] = useState(false);
-  const handleClickLogin = () => setClickLogin(!isClickLogin);
+  const [isOpenLogin, setOpenLogin] = useState(false);
+  const handleLogin = (datanya) => setOpenLogin(datanya);
 
   // register
-  const [isClickRegister, setClickRegister] = useState(false);
-  const handleClickRegister = () => setClickRegister(!isClickRegister);
+  const [isOpenRegister, setOpenRegister] = useState(false);
+  const handleRegister = (datanya) => setOpenRegister(datanya);
 
   return (
     <div>
@@ -29,18 +29,33 @@ function Welcome() {
       <div className="lp-tombol">
         <div>
           <p>
-            <button className="login-auth-button" onClick={handleClickLogin}>
+            <button
+              className="login-auth-button"
+              onClick={() => handleLogin(true)}
+            >
               Login
             </button>{" "}
             <button
               className="register-auth-button"
-              onClick={handleClickRegister}
+              onClick={() => handleRegister(true)}
             >
               Register
             </button>
           </p>
-          {isClickLogin && <Login isOpen={isClickLogin} />}
-          {isClickRegister && <Register isOpen={isClickRegister} />}
+          {isOpenLogin && (
+            <Login
+              isOpen={isOpenLogin}
+              isClose={() => handleLogin(false)}
+              isOpenRegister={() => handleRegister(true)}
+            />
+          )}
+          {isOpenRegister && (
+            <Register
+              isOpen={isOpenRegister}
+              isClose={() => handleRegister(false)}
+              isOpenLogin={() => handleLogin(true)}
+            />
+          )}
         </div>
       </div>
     </div>

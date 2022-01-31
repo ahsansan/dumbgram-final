@@ -4,22 +4,24 @@ import { useState, useContext } from "react";
 import { Form, Button, Modal, Alert } from "react-bootstrap";
 // Custom Css
 import "../styles/components/auth.css";
-// Import Component
-import Register from "./Register";
 // Import API
 import { API, setAuthToken } from "../config/api";
 // Context
 import { UserContext } from "../context/userContext";
 
 function Login(props) {
+  // Login
   const [show, setShow] = useState(props.isOpen);
-  const handleLoginClose = () => setShow(false);
+  const handleLoginClose = () => {
+    setShow(false);
+    props.isClose();
+  };
 
   // Register
-  const [showRegisterModal, setRegisterModal] = useState(false);
   const handleModalRegister = () => {
-    setShow(!show);
-    setRegisterModal(!showRegisterModal);
+    setShow(false);
+    props.isClose();
+    props.isOpenRegister();
   };
 
   // Context
@@ -106,7 +108,6 @@ function Login(props) {
   return (
     <div>
       {/* Modal */}
-      {showRegisterModal && <Register isOpen={true} />}
       <Modal dialogClassName="info-modal" show={show} onHide={handleLoginClose}>
         <Modal.Body>
           <Modal.Title className="form-auth-h">Login</Modal.Title>
