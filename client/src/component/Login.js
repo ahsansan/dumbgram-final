@@ -13,9 +13,7 @@ import { UserContext } from "../context/userContext";
 
 function Login(props) {
   const [show, setShow] = useState(props.isOpen);
-  const handleLoginClose = () => {
-    setShow(false);
-  };
+  const handleLoginClose = () => setShow(false);
 
   // Register
   const [showRegisterModal, setRegisterModal] = useState(false);

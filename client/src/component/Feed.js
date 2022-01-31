@@ -36,9 +36,7 @@ function Feed() {
   const handleShow = () => setShow(true);
   // follow feed
   const [feedFollow, setFeedFollow] = useState([]);
-  const [feedsid, getFeedById] = useState({});
-  // users
-  const [users, setUsers] = useState([]);
+  const [feedsId, setFeedId] = useState({});
   // load Feed
   const showFeedFollow = async () => {
     try {
@@ -54,7 +52,7 @@ function Feed() {
   // Load loadFeedFollow
   useEffect(() => {
     showFeedFollow();
-  }, [feedsid]);
+  }, []);
 
   return (
     <div data-aos="fade-up">
@@ -63,7 +61,7 @@ function Feed() {
           <div
             className="feed-container"
             key={feed.id}
-            onClick={() => getFeedById(feed)}
+            onClick={() => setFeedId(feed)}
           >
             <div className="feed-gambar">
               <img
@@ -101,7 +99,9 @@ function Feed() {
             </div>
           </div>
         ))}
-        <DetailFeed show={show} handleClose={handleClose} feedsid={feedsid} />
+        <DetailFeed show={show} handleClose={handleClose} feedsId={feedsId} />
+        <br />
+        <br />
       </Masonry>
     </div>
   );

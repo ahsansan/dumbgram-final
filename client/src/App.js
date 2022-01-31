@@ -34,9 +34,9 @@ function App() {
   // ketika reload jika masih login
   useEffect(() => {
     if (state.isLogin == false) {
-      navigate("/auth");
-    } else {
       navigate("/");
+    } else {
+      navigate("/feed");
     }
   }, [state]);
 
@@ -71,8 +71,8 @@ function App() {
   return (
     <Routes>
       {/* landing page */}
-      <Route path="/auth" exact element={<LandingPage />} />
-      <Route exact path="/" element={<FeedPage />} />
+      <Route exact path="/" exact element={<LandingPage />} />
+      <Route exact path="/feed" element={<FeedPage />} />
       <Route exact path="/explore" element={<ExplorePage />} />
       <Route exact path="/profile" element={<ProfilePage />} />
       <Route exact path="/create-post" element={<CreatePostPage />} />

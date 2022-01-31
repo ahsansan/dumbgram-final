@@ -14,9 +14,7 @@ import { API } from "../config/api";
 function Register(props) {
   // register
   const [show, setShow] = useState(props.isOpen);
-  const handleRegisterClose = () => {
-    setShow(false);
-  };
+  const handleRegisterClose = () => setShow(false);
 
   // login
   const [showLogin, setShowLogin] = useState(false);

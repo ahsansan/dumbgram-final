@@ -98,7 +98,7 @@ function LeftMenu() {
             </div>
             <div>
               <h2>{state.user.fullName}</h2>
-              <p className="username">{state.user.username}</p>
+              <p className="username">@{state.user.username}</p>
             </div>
             <div className="left-menu-statsprofile">
               <div className="left-menu-count">
@@ -122,7 +122,7 @@ function LeftMenu() {
             <hr />
             <ul>
               <li>
-                <Link to="/">
+                <Link to="/feed">
                   <FontAwesomeIcon className="icon-notifikasi" icon={faHome} />{" "}
                   Home
                 </Link>

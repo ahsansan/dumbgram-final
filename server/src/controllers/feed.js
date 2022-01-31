@@ -37,7 +37,7 @@ exports.addFeed = async (req, res) => {
 exports.followingFeeds = async (req, res) => {
   try {
     // menemukan id
-    const id = req.params.id;
+    const { id } = req.params;
 
     // menampilkan data
     const userData = await tbUser.findOne({
