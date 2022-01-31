@@ -86,7 +86,7 @@ function LeftMenu() {
   });
 
   return (
-    <div className="container">
+    <div className="container-profile">
       <div className="left-menu-container">
         <div>
           <div className="left-menu-up">

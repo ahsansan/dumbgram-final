@@ -19,6 +19,8 @@ import { useState, useEffect, useContext } from "react";
 // API and Context
 import { UserContext } from "../context/userContext";
 import { API } from "../config/api";
+// Detail Feed
+import DetailFeed from "./DetailFeed";
 // path
 const path = "http://localhost:5000/uploads/";
 
@@ -30,8 +32,12 @@ function FeedProfile() {
   }, []);
   // Detail Feed Modal
   const [state, dispatch] = useContext(UserContext);
-  // follow feed
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // feed by id
   const [feeds, setFeeds] = useState([]);
+  const [feedsId, setFeedId] = useState({});
   // load Feed
   const showFeeds = async () => {
     try {
@@ -53,11 +59,16 @@ function FeedProfile() {
     <div data-aos="fade-up">
       <Masonry columnsCount={3}>
         {feeds.map((feed) => (
-          <div className="feed-container" key={feed.id}>
+          <div
+            className="feed-container"
+            key={feed.id}
+            onClick={() => setFeedId(feed)}
+          >
             <div className="feed-gambar">
               <img
                 alt="Gambar Feed"
                 src={process.env.PUBLIC_URL + path + `${feed.fileName}`}
+                onClick={handleShow}
                 className="images-feed"
               />
             </div>
@@ -89,6 +100,7 @@ function FeedProfile() {
             </div>
           </div>
         ))}
+        <DetailFeed show={show} handleClose={handleClose} feedsId={feedsId} />
         <br />
         <br />
       </Masonry>
