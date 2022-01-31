@@ -1,8 +1,13 @@
 import Profile from "../component/Profile";
 import Header from "../component/Header";
 import FeedProfile from "../component/FeedProfile";
+import { useEffect } from "react";
 
 function ProfilePage() {
+  useEffect(() => {
+    document.title = "Profile | Dumbgram";
+  });
+
   return (
     <div>
       <Header />

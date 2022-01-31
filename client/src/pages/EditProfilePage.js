@@ -1,8 +1,12 @@
 import LeftMenu from "../component/LeftMenu";
 import Header from "../component/Header";
 import EditProfile from "../component/EditProfile";
+import { useEffect } from "react";
 
 function EditProfilePage() {
+  useEffect(() => {
+    document.title = "Edit Profile | Dumbgram";
+  });
   return (
     <div>
       <Header />

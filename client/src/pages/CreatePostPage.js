@@ -1,8 +1,12 @@
 import LeftMenu from "../component/LeftMenu";
 import Header from "../component/Header";
 import CreatePost from "../component/CreatePost";
+import { useEffect } from "react";
 
 function CreatePostPage() {
+  useEffect(() => {
+    document.title = "Upload Feed | Dumbgram";
+  });
   return (
     <div>
       <Header />

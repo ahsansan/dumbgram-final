@@ -1,8 +1,13 @@
 import LeftMenu from "../component/LeftMenu";
 import Header from "../component/Header";
 import Feed from "../component/Feed";
+import { useEffect } from "react";
 
-function ExplorePage() {
+function FeedPage() {
+  useEffect(() => {
+    document.title = "Feeds | Dumbgram";
+  });
+
   return (
     <div>
       <Header />
@@ -22,4 +27,4 @@ function ExplorePage() {
   );
 }
 
-export default ExplorePage;
+export default FeedPage;
