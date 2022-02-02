@@ -18,7 +18,7 @@ import { UserContext } from "../context/userContext";
 import { API } from "../config/api";
 const path = "http://localhost:5000/uploads/";
 
-function DetailFeed({ show, handleClose, feedsId }) {
+function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
   const [state, dispatch] = useContext(UserContext);
   const [comments, setComments] = useState([]);
 
@@ -30,6 +30,102 @@ function DetailFeed({ show, handleClose, feedsId }) {
       console.log(error);
     }
   };
+
+  // add comment
+  const [form, setForm] = useState({
+    comment: "",
+  });
+
+  const { comment } = form;
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // enter comment
+  const handleSubmit = async (e) => {
+    if (e.key === "Enter") {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const body = JSON.stringify({
+        ...form,
+        idFeed: `${feedsId.id}`,
+        idUser: `${state.user.id}`,
+      });
+
+      const response = await API.post("/comment", body, config);
+
+      console.log(response);
+
+      loadComments();
+      setForm({
+        comment: "",
+      });
+    }
+  };
+
+  // Like
+  const [likeUser, setLikeUser] = useState([]);
+  const [likes, setLike] = useState();
+
+  const loadLike = async () => {
+    try {
+      const response = await API.get(`/like/${state.user.id}`);
+      setLikeUser(response.data.like);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const likeFilter = async () => {
+    try {
+      const find = likeUser.find((data) => data.idFeed == feedsId.id);
+      if (find) {
+        setLike(true);
+      } else {
+        setLike(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLike = (event) => {
+    const id = event.target.getAttribute("content");
+    like(id);
+  };
+
+  const like = async (id) => {
+    try {
+      const body = JSON.stringify({ id });
+      const headers = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const response = await API.post("/like", body, headers);
+
+      showFeedFollow();
+      loadLike();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Load loadLike
+  useEffect(() => {
+    loadLike();
+  }, [showFeedFollow]);
+
+  // Load likeFilter
+  useEffect(() => {
+    likeFilter();
+  }, [likeUser]);
 
   // Load comment
   useEffect(() => {
@@ -77,31 +173,47 @@ function DetailFeed({ show, handleClose, feedsId }) {
                   <p className="caption-uploader">{feedsId.caption}</p>
                 </div>
               </div>
-              {comments.map((comment) => (
-                <div className="detail-komen" key={comment.id}>
-                  <div className="foto-komen">
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + path + `${comment.user.image}`
-                      }
-                      alt="Komenter"
-                    />
+              <div className="komen-container">
+                {comments.map((comment) => (
+                  <div className="detail-komen" key={comment.id}>
+                    <div className="foto-komen">
+                      <img
+                        src={
+                          process.env.PUBLIC_URL +
+                          path +
+                          `${comment.user.image}`
+                        }
+                        alt="Komenter"
+                      />
+                    </div>
+                    <div className="data-komen">
+                      <Link to={`/profile/${comment.user.id}`}>
+                        <p className="nama-komen">{comment.user.fullName}</p>
+                      </Link>
+                      <p className="caption-komen">{comment.comment}</p>
+                    </div>
                   </div>
-                  <div className="data-komen">
-                    <Link to={`/profile/${comment.user.id}`}>
-                      <p className="nama-komen">{comment.user.fullName}</p>
-                    </Link>
-                    <p className="caption-komen">{comment.comment}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
               <div className="reaction-container">
                 <div className="icon-icon">
-                  <FontAwesomeIcon
-                    className="card-icon heart hearts"
-                    icon={faHeart}
-                    size="lg"
-                  />
+                  {likes ? (
+                    <FontAwesomeIcon
+                      className="card-icon heart hearts text-danger"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feedsId.id}
+                      size="lg"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="card-icon heart hearts"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feedsId.id}
+                      size="lg"
+                    />
+                  )}
                   <FontAwesomeIcon
                     className="card-icon heart hearts"
                     icon={faComment}
@@ -117,7 +229,18 @@ function DetailFeed({ show, handleClose, feedsId }) {
                   <p>{feedsId.like} Like</p>
                 </div>
                 <div className="kolom-komentar">
-                  <input type="text" placeholder="Comment" />
+                  <input
+                    value={comment}
+                    id="comment"
+                    onChange={handleOnChange}
+                    name="comment"
+                    type="text"
+                    placeholder="Comment"
+                    autocomplete="off"
+                    onKeyPress={handleSubmit}
+                    onFocus
+                    required
+                  />
                 </div>
               </div>
             </div>

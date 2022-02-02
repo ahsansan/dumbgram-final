@@ -277,6 +277,36 @@ exports.likeFeed = async (req, res) => {
   }
 };
 
+exports.getLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const likes = await tbLike.findAll({
+      where: {
+        idUser: id,
+      },
+    });
+
+    if (!likes) {
+      return res.send({
+        status: "failed",
+        message: "No Likes",
+      });
+    }
+
+    res.send({
+      status: "success",
+      like: likes,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
+
 exports.commentsFeed = async (req, res) => {
   try {
     const id = req.params.id;
@@ -323,7 +353,6 @@ exports.addComment = async (req, res) => {
     const dataComment = {
       ...comment,
       idUser: req.user.id,
-      idFeed: req.params.id,
     };
 
     await tbComment.create(dataComment);

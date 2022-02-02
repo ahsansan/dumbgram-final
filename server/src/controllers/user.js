@@ -295,3 +295,85 @@ exports.followings = async (req, res) => {
     });
   }
 };
+
+exports.followByFollowers = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const follows = await tbFollow.findAll({
+      where: {
+        idFollowers: id,
+      },
+      include: {
+        model: tbUser,
+        as: "followings",
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "bio", "password", "email"],
+        },
+      },
+    });
+
+    if (!follows) {
+      return res.send({
+        status: "failed",
+        message: "No Likes",
+      });
+    }
+
+    res.send({
+      status: "success",
+      follow: follows,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
+
+exports.addFollow = async (req, res) => {
+  try {
+    const { body } = req;
+
+    await tbFollow.create(body);
+
+    res.status(200).send({
+      status: "success",
+      message: "Follow Successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
+
+exports.unfollow = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await tbFollow.destroy({
+      where: {
+        idFollowings: id,
+      },
+    });
+
+    res.status(200).send({
+      status: "success",
+      message: "Unfollow successfully",
+      data: {
+        id: id,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};

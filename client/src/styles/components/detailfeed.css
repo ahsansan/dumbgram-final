@@ -71,12 +71,15 @@ a {
   font-size: 13px;
 }
 
+.komen-container {
+  height: 170px;
+  overflow: auto;
+}
+
 .detail-komen {
   display: flex;
   flex-direction: inline;
   justify-content: start;
-  height: 100px;
-  overflow: auto;
 }
 
 .foto-komen {
@@ -114,10 +117,11 @@ a {
 }
 
 .icon-icon {
-  margin-top: 100px;
+  margin-top: 30px;
   display: inline-block;
   text-align: right;
   padding-right: 20px;
+  cursor: pointer;
 }
 
 .likers {

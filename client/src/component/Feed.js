@@ -49,6 +49,44 @@ function Feed() {
   // order feed
   feedFollow.reverse();
 
+  // Like
+
+  const [likeUser, setLikeUser] = useState([]);
+
+  const loadLike = async () => {
+    try {
+      const response = await API.get(`/like/${state.user.id}`);
+      setLikeUser(response.data.like);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLike = (event) => {
+    const id = event.target.getAttribute("content");
+    like(id);
+  };
+
+  const like = async (id) => {
+    try {
+      const body = JSON.stringify({ id });
+      const headers = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const response = await API.post("/like", body, headers);
+
+      showFeedFollow();
+      loadLike();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Load loadLike
+  useEffect(() => {
+    loadLike();
+  }, []);
+
   // Load loadFeedFollow
   useEffect(() => {
     showFeedFollow();
@@ -86,7 +124,21 @@ function Feed() {
                   </p>
                 </div>
                 <div className="icon-container">
-                  <FontAwesomeIcon className="card-icon" icon={faHeart} />
+                  {feed.like ? (
+                    <FontAwesomeIcon
+                      className="card-icon heart hearts text-danger"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feed.id}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="card-icon heart hearts"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feed.id}
+                    />
+                  )}
                   <FontAwesomeIcon className="card-icon" icon={faComment} />
                   <FontAwesomeIcon className="card-icon" icon={faPaperPlane} />
                 </div>
@@ -99,7 +151,19 @@ function Feed() {
             </div>
           </div>
         ))}
-        <DetailFeed show={show} handleClose={handleClose} feedsId={feedsId} />
+        {feedFollow.length === 0 ? (
+          <center className="nopost" data-aos="fade-up">
+            No Post <p className="childnopost">follow someone to view posts</p>
+          </center>
+        ) : (
+          <center></center>
+        )}
+        <DetailFeed
+          show={show}
+          handleClose={handleClose}
+          feedsId={feedsId}
+          showFeedFollow={showFeedFollow}
+        />
         <br />
         <br />
       </Masonry>

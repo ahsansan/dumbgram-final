@@ -59,6 +59,7 @@
 .card-icon {
   margin-left: 5px;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .navlike {
@@ -70,4 +71,14 @@
   font-size: 14;
   font-weight: 800;
   color: #ababab;
+}
+
+.nopost {
+  font-size: 20px;
+  margin-top: 190px !important;
+}
+
+.childnopost {
+  font-size: 15px;
+  color: rgb(109, 109, 109);
 }

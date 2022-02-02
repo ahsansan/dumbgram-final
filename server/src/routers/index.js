@@ -11,6 +11,9 @@ const {
   deleteUser,
   followers,
   followings,
+  followByFollowers,
+  addFollow,
+  unfollow,
 } = require("../controllers/user");
 const {
   addFeed,
@@ -20,6 +23,7 @@ const {
   commentsFeed,
   addComment,
   getFeed,
+  getLike,
 } = require("../controllers/feed");
 const { addChat, getMessage } = require("../controllers/message");
 
@@ -38,12 +42,16 @@ router.delete("/user/:id", deleteUser);
 router.get("/feedscount/:id", getFeed);
 router.get("/followers/:id", followers);
 router.get("/followings/:id", followings);
+router.get("/follow/:id", followByFollowers);
+router.delete("/unfollow/:id", unfollow);
+router.patch("/follow", addFollow);
 router.post("/feed", auth, uploadFile("fileName"), addFeed);
 router.get("/feed/:id", auth, followingFeeds);
 router.get("/feeds", auth, feeds);
+router.get("/like/:id", getLike);
 router.post("/like", auth, likeFeed);
 router.get("/comment/:id", auth, commentsFeed);
-router.post("/comment/:id", auth, addComment);
+router.post("/comment", auth, addComment);
 router.post("/chat/:id", auth, addChat);
 router.get("/chat/:id", auth, getMessage);
 
