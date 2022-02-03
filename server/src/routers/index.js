@@ -24,6 +24,7 @@ const {
   addComment,
   getFeed,
   getLike,
+  detailFeed,
 } = require("../controllers/feed");
 const { addChat, getMessage } = require("../controllers/message");
 
@@ -47,6 +48,7 @@ router.delete("/unfollow/:id", unfollow);
 router.patch("/follow", addFollow);
 router.post("/feed", auth, uploadFile("fileName"), addFeed);
 router.get("/feed/:id", auth, followingFeeds);
+router.get("/detail-feed/:id", detailFeed);
 router.get("/feeds", auth, feeds);
 router.get("/like/:id", getLike);
 router.post("/like", auth, likeFeed);

@@ -22,6 +22,7 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
   const [state, dispatch] = useContext(UserContext);
   const [comments, setComments] = useState([]);
 
+  // load comment
   const loadComments = async () => {
     try {
       const response = await API.get(`/comment/${feedsId.id}`);
@@ -199,7 +200,7 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                 <div className="icon-icon">
                   {likes ? (
                     <FontAwesomeIcon
-                      className="card-icon heart hearts text-danger"
+                      className="card-icon text-danger"
                       onClick={handleLike}
                       icon={faHeart}
                       content={feedsId.id}
@@ -207,7 +208,7 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                     />
                   ) : (
                     <FontAwesomeIcon
-                      className="card-icon heart hearts"
+                      className="card-icon"
                       onClick={handleLike}
                       icon={faHeart}
                       content={feedsId.id}
@@ -215,12 +216,12 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                     />
                   )}
                   <FontAwesomeIcon
-                    className="card-icon heart hearts"
+                    className="card-icon"
                     icon={faComment}
                     size="lg"
                   />
                   <FontAwesomeIcon
-                    className="card-icon heart hearts"
+                    className="card-icon"
                     icon={faPaperPlane}
                     size="lg"
                   />
@@ -238,7 +239,6 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                     placeholder="Comment"
                     autocomplete="off"
                     onKeyPress={handleSubmit}
-                    onFocus
                     required
                   />
                 </div>

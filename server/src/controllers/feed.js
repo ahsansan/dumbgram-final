@@ -124,6 +124,51 @@ exports.followingFeeds = async (req, res) => {
   }
 };
 
+// exports.feeds = async (req, res) => {
+//   try {
+//     // Menampilkan semua data
+//     let allfeed = await tbFeed.findAll({
+//       include: {
+//         model: tbUser,
+//         as: "user",
+//         attributes: {
+//           exclude: ["createdAt", "updatedAt", "bio", "password", "email"],
+//         },
+//       },
+//       order: [["id", "DESC"]],
+//       attributes: {
+//         exclude: ["createdAt", "updatedAt"],
+//       },
+//     });
+
+//     const parseJSON = JSON.parse(JSON.stringify(allfeed));
+
+//     allfeed = parseJSON.map((item) => {
+//       return {
+//         ...item,
+//         fileName: process.env.UPLOAD_PATH + item.fileName,
+//       };
+//     });
+
+//     // Jika berhasil
+//     res.status(200).send({
+//       status: "success",
+//       message: "feeds",
+//       data: {
+//         feeds: allfeed,
+//       },
+//     });
+
+//     // Jika error
+//   } catch (err) {
+//     console.log(err);
+//     res.status(400).send({
+//       status: "failed",
+//       message: "Server Error",
+//     });
+//   }
+// };
+
 exports.feeds = async (req, res) => {
   try {
     // Menampilkan semua data
@@ -146,7 +191,7 @@ exports.feeds = async (req, res) => {
     allfeed = parseJSON.map((item) => {
       return {
         ...item,
-        fileName: process.env.UPLOAD_PATH + item.fileName,
+        fileName: item.fileName,
       };
     });
 
@@ -406,6 +451,46 @@ exports.getFeed = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
+
+exports.detailFeed = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // menampilkan data
+    const feeds = await tbFeed.findOne({
+      where: {
+        id: id,
+      },
+      include: {
+        model: tbUser,
+        as: "user",
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "bio", "password", "email"],
+        },
+      },
+      order: [["id", "DESC"]],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "password"],
+      },
+    });
+
+    // tampikan ketika berhasil
+    res.status(200).send({
+      status: "success",
+      data: {
+        feeds,
+      },
+    });
+
+    // ketika server erorr
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
       status: "failed",
       message: "Server Error",
     });

@@ -1,6 +1,6 @@
 import LeftMenu from "../component/LeftMenu";
 import Header from "../component/Header";
-import Explore from "../component/Explore";
+import ExplorePost from "../component/ExplorePost";
 
 function ExplorePage() {
   return (
@@ -12,8 +12,8 @@ function ExplorePage() {
         </div>
         <div className="home-right">
           <div>
-            <div className="d-flex justify-content-center">
-              <Explore />
+            <div>
+              <ExplorePost />
             </div>
           </div>
         </div>
