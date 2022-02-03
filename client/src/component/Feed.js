@@ -139,7 +139,11 @@ function Feed() {
                       content={feed.id}
                     />
                   )}
-                  <FontAwesomeIcon className="card-icon" icon={faComment} />
+                  <FontAwesomeIcon
+                    onClick={handleShow}
+                    className="card-icon"
+                    icon={faComment}
+                  />
                   <FontAwesomeIcon className="card-icon" icon={faPaperPlane} />
                 </div>
               </div>
@@ -152,9 +156,12 @@ function Feed() {
           </div>
         ))}
         {feedFollow.length === 0 ? (
-          <center className="nopost" data-aos="fade-up">
-            No Post <p className="childnopost">follow someone to view posts</p>
-          </center>
+          <div className="feed-kosong">
+            <div className="nopost" data-aos="fade-up">
+              <h3>No Post</h3>
+              <p className="childnopost">follow someone to view posts</p>
+            </div>
+          </div>
         ) : (
           <center></center>
         )}

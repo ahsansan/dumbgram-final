@@ -75,10 +75,19 @@
 
 .nopost {
   font-size: 20px;
-  margin-top: 190px !important;
+  color: white;
 }
 
 .childnopost {
   font-size: 15px;
-  color: rgb(109, 109, 109);
+  color: rgb(196, 194, 194);
+}
+
+.feed-kosong {
+  width: 70vw;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }

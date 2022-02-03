@@ -103,7 +103,9 @@ function LeftMenu() {
             <div className="left-menu-statsprofile">
               <div className="left-menu-count">
                 <p className="head">Post</p>
-                <p className="content">{feed}</p>
+                <Link to={`/profile/${state.user.id}`}>
+                  <p className="content-isi">{feed}</p>
+                </Link>
               </div>
               <div className="left-menu-count-center">
                 <p className="head">Followers</p>
@@ -111,7 +113,7 @@ function LeftMenu() {
               </div>
               <div className="left-menu-count">
                 <p className="head">Following</p>
-                <p className="content">{following}</p>
+                <p className="content-isi">{following}</p>
               </div>
             </div>
           </div>

@@ -115,10 +115,12 @@
   font-weight: 300;
 }
 
-.left-menu-count,
-.left-menu-count-center .content {
-  font-size: 18px;
-  font-weight: 500;
+.content-isi {
+  color: white;
+}
+
+.left-menu-count .content Link {
+  color: white;
 }
 
 .data-diri {

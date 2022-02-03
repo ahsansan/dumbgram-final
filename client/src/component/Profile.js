@@ -19,11 +19,6 @@ import { UserContext } from "../context/userContext";
 import { API } from "../config/api";
 
 function Profile() {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const { id } = useParams();
 
   // Context
