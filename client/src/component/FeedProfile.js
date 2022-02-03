@@ -39,7 +39,7 @@ function FeedProfile() {
   const [feeds, setFeeds] = useState([]);
   const [feedsId, setFeedId] = useState({});
   // load Feed
-  const showFeeds = async () => {
+  const showFeedFollow = async () => {
     try {
       const response = await API.get(`/feedscount/${id}`);
       setFeeds(response.data.data.feeds); // id follow
@@ -50,9 +50,46 @@ function FeedProfile() {
   // order feed
   feeds.reverse();
 
+  // Like
+  const [likeUser, setLikeUser] = useState([]);
+
+  const loadLike = async () => {
+    try {
+      const response = await API.get(`/like/${state.user.id}`);
+      setLikeUser(response.data.like);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLike = (event) => {
+    const id = event.target.getAttribute("content");
+    like(id);
+  };
+
+  const like = async (id) => {
+    try {
+      const body = JSON.stringify({ id });
+      const headers = {
+        headers: { "Content-Type": "application/json" },
+      };
+      const response = await API.post("/like", body, headers);
+
+      showFeedFollow();
+      loadLike();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Load loadLike
+  useEffect(() => {
+    loadLike();
+  }, []);
+
   // Load loadFeedFollow
   useEffect(() => {
-    showFeeds();
+    showFeedFollow();
   }, []);
 
   return (
@@ -87,8 +124,26 @@ function FeedProfile() {
                   </p>
                 </div>
                 <div className="icon-container">
-                  <FontAwesomeIcon className="card-icon" icon={faHeart} />
-                  <FontAwesomeIcon className="card-icon" icon={faComment} />
+                  {feed.like ? (
+                    <FontAwesomeIcon
+                      className="card-icon text-danger"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feed.id}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="card-icon"
+                      onClick={handleLike}
+                      icon={faHeart}
+                      content={feed.id}
+                    />
+                  )}
+                  <FontAwesomeIcon
+                    className="card-icon"
+                    icon={faComment}
+                    onClick={handleShow}
+                  />
                   <FontAwesomeIcon className="card-icon" icon={faPaperPlane} />
                 </div>
               </div>
@@ -100,7 +155,12 @@ function FeedProfile() {
             </div>
           </div>
         ))}
-        <DetailFeed show={show} handleClose={handleClose} feedsId={feedsId} />
+        <DetailFeed
+          show={show}
+          handleClose={handleClose}
+          feedsId={feedsId}
+          showFeedFollow={showFeedFollow}
+        />
         <br />
         <br />
       </Masonry>

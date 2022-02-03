@@ -215,11 +215,13 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                       size="lg"
                     />
                   )}
-                  <FontAwesomeIcon
-                    className="card-icon"
-                    icon={faComment}
-                    size="lg"
-                  />
+                  <label htmlFor="comment">
+                    <FontAwesomeIcon
+                      className="card-icon"
+                      icon={faComment}
+                      size="lg"
+                    />
+                  </label>
                   <FontAwesomeIcon
                     className="card-icon"
                     icon={faPaperPlane}
@@ -237,7 +239,7 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
                     name="comment"
                     type="text"
                     placeholder="Comment"
-                    autocomplete="off"
+                    autoComplete="off"
                     onKeyPress={handleSubmit}
                     required
                   />

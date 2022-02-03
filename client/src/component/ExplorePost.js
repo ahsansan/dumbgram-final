@@ -29,7 +29,7 @@ function ExplorePost() {
   const [explore, setExplore] = useState([]);
   const [feedsId, setFeedId] = useState({});
   // load Feed
-  const showFeedAll = async () => {
+  const showFeedFollow = async () => {
     try {
       const response = await API.get(`/feeds`);
       setExplore(response.data.data.feeds); // id
@@ -42,7 +42,7 @@ function ExplorePost() {
 
   // Load loadFeedFollow
   useEffect(() => {
-    showFeedAll();
+    showFeedFollow();
   }, []);
 
   return (
@@ -64,7 +64,12 @@ function ExplorePost() {
             </div>
           </div>
         ))}
-        <DetailFeed show={show} handleClose={handleClose} feedsId={feedsId} />
+        <DetailFeed
+          show={show}
+          handleClose={handleClose}
+          feedsId={feedsId}
+          showFeedFollow={showFeedFollow}
+        />
         <br />
         <br />
       </Masonry>

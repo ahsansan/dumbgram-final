@@ -50,7 +50,6 @@ function Feed() {
   feedFollow.reverse();
 
   // Like
-
   const [likeUser, setLikeUser] = useState([]);
 
   const loadLike = async () => {
@@ -126,14 +125,14 @@ function Feed() {
                 <div className="icon-container">
                   {feed.like ? (
                     <FontAwesomeIcon
-                      className="card-icon heart hearts text-danger"
+                      className="card-icon text-danger"
                       onClick={handleLike}
                       icon={faHeart}
                       content={feed.id}
                     />
                   ) : (
                     <FontAwesomeIcon
-                      className="card-icon heart hearts"
+                      className="card-icon"
                       onClick={handleLike}
                       icon={faHeart}
                       content={feed.id}
