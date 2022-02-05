@@ -38,7 +38,18 @@ function ExplorePost() {
     }
   };
   // order feed
-  explore.reverse();
+  function shuffleArray(explore) {
+    let i = explore.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = explore[i];
+      explore[i] = explore[j];
+      explore[j] = temp;
+    }
+    return explore;
+  }
+
+  const shuffledPosts = shuffleArray(explore);
 
   // Load loadFeedFollow
   useEffect(() => {
@@ -48,7 +59,7 @@ function ExplorePost() {
   return (
     <div data-aos="fade-up">
       <Masonry columnsCount={3}>
-        {explore.map((feed) => (
+        {shuffledPosts.map((feed) => (
           <div
             className="explore-post-container"
             key={feed.id}

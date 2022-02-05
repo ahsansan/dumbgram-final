@@ -79,7 +79,7 @@ exports.followingFeeds = async (req, res) => {
               exclude: ["updatedAt", "followers", "followings", "idUser"],
             },
           },
-          order: [["createdAt", "DESC"]],
+          order: [["id", "DESC"]],
           attributes: {
             exclude: [
               "password",
@@ -123,51 +123,6 @@ exports.followingFeeds = async (req, res) => {
     });
   }
 };
-
-// exports.feeds = async (req, res) => {
-//   try {
-//     // Menampilkan semua data
-//     let allfeed = await tbFeed.findAll({
-//       include: {
-//         model: tbUser,
-//         as: "user",
-//         attributes: {
-//           exclude: ["createdAt", "updatedAt", "bio", "password", "email"],
-//         },
-//       },
-//       order: [["id", "DESC"]],
-//       attributes: {
-//         exclude: ["createdAt", "updatedAt"],
-//       },
-//     });
-
-//     const parseJSON = JSON.parse(JSON.stringify(allfeed));
-
-//     allfeed = parseJSON.map((item) => {
-//       return {
-//         ...item,
-//         fileName: process.env.UPLOAD_PATH + item.fileName,
-//       };
-//     });
-
-//     // Jika berhasil
-//     res.status(200).send({
-//       status: "success",
-//       message: "feeds",
-//       data: {
-//         feeds: allfeed,
-//       },
-//     });
-
-//     // Jika error
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).send({
-//       status: "failed",
-//       message: "Server Error",
-//     });
-//   }
-// };
 
 exports.feeds = async (req, res) => {
   try {
@@ -358,7 +313,7 @@ exports.commentsFeed = async (req, res) => {
 
     const comments = await tbComment.findAll({
       attributes: {
-        exclude: ["createdAt", "updatedAt", "idFeed", "idUser"],
+        exclude: ["updatedAt", "idFeed", "idUser"],
       },
       include: {
         model: tbUser,
@@ -370,7 +325,7 @@ exports.commentsFeed = async (req, res) => {
       where: {
         idFeed: id,
       },
-      order: [["id", "DESC"]],
+      order: [["createdAt", "ASC"]],
     });
 
     // tampikan ketika berhasil
