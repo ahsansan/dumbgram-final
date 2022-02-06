@@ -19,8 +19,7 @@ import FeedPage from "./pages/FeedPage";
 import ProfilePage from "./pages/ProfilePage";
 import CreatePostPage from "./pages/CreatePostPage";
 import EditProfilePage from "./pages/EditProfilePage";
-import NoMessagePage from "./pages/NoMessagePage";
-import MessageZaynPage from "./pages/MessagesZaynPage";
+import MessagesPage from "./pages/MessagesPage";
 
 // init token pada axios setiap kali aplikasi direfresh
 if (localStorage.token) {
@@ -77,8 +76,7 @@ function App() {
       <Route exact path="/profile/:id" element={<ProfilePage />} />
       <Route exact path="/create-post" element={<CreatePostPage />} />
       <Route exact path="/edit-profile" element={<EditProfilePage />} />
-      <Route exact path="/message" element={<NoMessagePage />} />
-      <Route exact path="/message-detail" element={<MessageZaynPage />} />
+      <Route exact path="/message" element={<MessagesPage />} />
     </Routes>
   );
 }

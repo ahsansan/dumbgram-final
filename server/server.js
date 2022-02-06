@@ -10,6 +10,19 @@ const app = express();
 // port
 const port = 5000;
 
+// Socket IO
+const http = require("http");
+const { Server } = require("socket.io");
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+require("./src/socket")(io);
+
 // JSON
 app.use(express.json());
 
@@ -23,4 +36,4 @@ app.use("/api/dumbgram/v1/", router);
 app.use("/uploads", express.static("uploads"));
 
 // Server listen
-app.listen(port, () => console.log(`Server running on port ${port}`));
+server.listen(port, () => console.log(`Server running on port ${port}`));

@@ -27,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
           name: "idUser",
         },
       });
+      tbUser.hasMany(models.tbMessage, {
+        as: "senderMessage",
+        foreignKey: {
+          name: "idSender",
+        },
+      });
+      tbUser.hasMany(models.tbMessage, {
+        as: "receiverMessage",
+        foreignKey: {
+          name: "idReceiver",
+        },
+      });
     }
   }
   tbUser.init(
