@@ -49,7 +49,20 @@ const socketIo = (io) => {
           image: process.env.UPLOAD_PATH + item.image,
         }));
 
-        socket.emit("contacts", customerContacts);
+        // console.log("customer contact", customerContacts);
+
+        let chatNya = [];
+        for (let index = 0; index < customerContacts.length; index++) {
+          const dataChat = customerContacts[index];
+          if (
+            dataChat.receiverMessage.length == 0 &&
+            dataChat.senderMessage.length == 0
+          ) {
+          } else {
+            chatNya.push(dataChat);
+          }
+        }
+        socket.emit("contacts", chatNya);
       } catch (err) {
         console.log(err);
       }
