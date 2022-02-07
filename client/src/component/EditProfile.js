@@ -116,8 +116,8 @@ function EditProfile() {
         <div>
           <input
             type="text"
-            name="name"
-            id="name"
+            name="fullName"
+            id="fullName"
             onChange={handleOnChange}
             value={fullName}
             className="normal-input"
