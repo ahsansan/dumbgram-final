@@ -33,7 +33,7 @@ function MessagesPage() {
     });
 
     socket.on("connect_error", (err) => {
-      console.error(err.message); // not authorized
+      console.error(err.message);
     });
 
     loadContact();

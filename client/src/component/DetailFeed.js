@@ -19,7 +19,7 @@ import { API } from "../config/api";
 const path = "http://localhost:5000/uploads/";
 
 function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const [comments, setComments] = useState([]);
 
   // load comment
@@ -61,9 +61,7 @@ function DetailFeed({ show, handleClose, feedsId, showFeedFollow }) {
         idUser: `${state.user.id}`,
       });
 
-      const response = await API.post("/comment", body, config);
-
-      console.log(response);
+      await API.post("/comment", body, config);
 
       loadComments();
       setForm({
