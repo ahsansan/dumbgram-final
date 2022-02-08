@@ -30,7 +30,7 @@ function Feed() {
     Aos.init({ duration: 1000 });
   }, []);
   // Detail Feed Modal
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

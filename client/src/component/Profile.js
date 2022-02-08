@@ -2,6 +2,10 @@
 import "../styles/components/profile.css";
 // Bootstrap
 import { Button } from "react-bootstrap";
+// NewMessage
+import NewMessage from "./NewMessage";
+// Sweet alert
+import Swal from "sweetalert2";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,15 +14,23 @@ import {
   faCompass,
 } from "@fortawesome/free-solid-svg-icons";
 // React Router Dom
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 // React
 import { useState, useEffect, useContext } from "react";
+// Socket
+import { io } from "socket.io-client";
 // UseContext
 import { UserContext } from "../context/userContext";
 // Import API
 import { API } from "../config/api";
 
+let socket;
+
 function Profile() {
+  // Navigate
+  const navigate = useNavigate();
+
+  // Id
   const { id } = useParams();
 
   // Context
@@ -40,6 +52,11 @@ function Profile() {
   const [follow, setFollow] = useState([]);
   const [follows, setFollows] = useState();
   const [followsId, setFollowsId] = useState("");
+
+  // new message midal
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const showUser = async () => {
     try {
@@ -140,11 +157,52 @@ function Profile() {
     }
   };
 
+  // Send message
+  const onSendMessage = (e) => {
+    if (e.key === "Enter") {
+      const data = {
+        idReceiver: id,
+        message: e.target.value,
+      };
+
+      socket.emit("send message", data);
+      e.target.value = "";
+      navigate("/message");
+    }
+  };
+
+  const ifNotFollow = () => {
+    Swal.fire("You must follow this user first");
+  };
+
   const handleLogout = () => {
     dispatch({
       type: "LOGOUT",
     });
   };
+
+  useEffect(() => {
+    socket = io("http://localhost:5000", {
+      auth: {
+        token: localStorage.getItem("token"),
+      },
+      query: {
+        id: state.user.id,
+      },
+    });
+
+    socket.on("new message", () => {
+      socket.emit("load messages", id);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error(err.message); // not authorized
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     showUser();
@@ -190,9 +248,12 @@ function Profile() {
                 <div className="tombol-action">
                   <ul>
                     <li>
-                      <Link to="/message" className="login-messeges-button">
+                      <Button
+                        onClick={handleShow}
+                        className="login-messeges-button"
+                      >
                         Messege
-                      </Link>
+                      </Button>
                     </li>
                     <li>
                       <Button
@@ -208,9 +269,12 @@ function Profile() {
                 <div className="tombol-action">
                   <ul>
                     <li>
-                      <Link to="/message" className="login-messeges-button">
+                      <Button
+                        onClick={ifNotFollow}
+                        className="login-messeges-button"
+                      >
                         Messege
-                      </Link>
+                      </Button>
                     </li>
                     <li>
                       <Button
@@ -281,6 +345,11 @@ function Profile() {
           </div>
         </div>
       </div>
+      <NewMessage
+        sendMessage={onSendMessage}
+        show={show}
+        handleClose={handleClose}
+      />
     </>
   );
 }

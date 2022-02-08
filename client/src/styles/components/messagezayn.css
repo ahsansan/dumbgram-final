@@ -98,3 +98,18 @@
   border-right: 20px solid #575757;
   border-bottom: 15px solid transparent;
 }
+
+.info-modal-send .modal-content {
+  background-color: #1f1f1f !important;
+  border: 1px solid white !important;
+  border-radius: 15px !important;
+  padding: 20px 10px !important;
+  margin-top: 250px;
+  margin-left: 50px;
+  padding-top: 20px;
+}
+
+.send-your-message {
+  text-align: center;
+  margin-bottom: 20px;
+}
