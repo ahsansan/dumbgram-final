@@ -61,7 +61,7 @@ function Profile() {
   const showUser = async () => {
     try {
       const response = await API.get(`/user/${id}`);
-      setUser(response.data.data.user); // id
+      setUser(response.data.data.user);
     } catch (error) {
       console.log(error);
     }
@@ -196,7 +196,7 @@ function Profile() {
     });
 
     socket.on("connect_error", (err) => {
-      console.error(err.message); // not authorized
+      console.error(err.message);
     });
 
     return () => {
