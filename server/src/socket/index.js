@@ -20,19 +20,27 @@ const socketIo = (io) => {
     connectedUser[userId] = socket.id;
 
     socket.on("load contacts", async () => {
+      const token = socket.handshake.auth.token;
+
+      const tokenKey = process.env.SECRET_KEY;
+      const verified = jwt.verify(token, tokenKey);
+
+      const idUser = verified.id;
+
       try {
         let customerContacts = await tbUser.findAll({
+          where: {
+            id: {
+              [Op.not]: [idUser],
+            },
+          },
           include: [
             {
               model: tbMessage,
               as: "receiverMessage",
-              attributes: {
-                exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
+              where: {
+                [Op.or]: [{ idSender: idUser }, { idReceiver: idUser }],
               },
-            },
-            {
-              model: tbMessage,
-              as: "senderMessage",
               attributes: {
                 exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
               },
@@ -49,20 +57,7 @@ const socketIo = (io) => {
           image: process.env.UPLOAD_PATH + item.image,
         }));
 
-        // console.log("customer contact", customerContacts);
-
-        let chatNya = [];
-        for (let index = 0; index < customerContacts.length; index++) {
-          const dataChat = customerContacts[index];
-          if (
-            dataChat.receiverMessage.length == 0 &&
-            dataChat.senderMessage.length == 0
-          ) {
-          } else {
-            chatNya.push(dataChat);
-          }
-        }
-        socket.emit("contacts", chatNya);
+        socket.emit("contacts", customerContacts);
       } catch (err) {
         console.log(err);
       }
