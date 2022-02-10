@@ -57,7 +57,7 @@ function CreatePost() {
 
       const response = await API.get("/check-auth");
 
-      Swal.fire("Good job!", "Update Success", "success");
+      Swal.fire("Good job!", "Upload Success", "success");
 
       let payload = response.data.data.user;
       payload.token = localStorage.token;

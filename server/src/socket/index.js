@@ -20,19 +20,27 @@ const socketIo = (io) => {
     connectedUser[userId] = socket.id;
 
     socket.on("load contacts", async () => {
+      const token = socket.handshake.auth.token;
+
+      const tokenKey = process.env.SECRET_KEY;
+      const verified = jwt.verify(token, tokenKey);
+
+      const idUser = verified.id;
+
       try {
         let customerContacts = await tbUser.findAll({
+          where: {
+            id: {
+              [Op.not]: [idUser],
+            },
+          },
           include: [
             {
               model: tbMessage,
               as: "receiverMessage",
-              attributes: {
-                exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
+              where: {
+                [Op.or]: [{ idSender: idUser }, { idReceiver: idUser }],
               },
-            },
-            {
-              model: tbMessage,
-              as: "senderMessage",
               attributes: {
                 exclude: ["createdAt", "updatedAt", "idRecipient", "idSender"],
               },

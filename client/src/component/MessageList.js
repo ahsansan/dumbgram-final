@@ -1,7 +1,5 @@
 // Custom CSS
 import "../styles/components/messagelist.css";
-// React Router Dom
-import { Link } from "react-router-dom";
 
 function MessageList({ dataContact, clickContact, contact }) {
   return (
