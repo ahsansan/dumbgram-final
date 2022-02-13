@@ -1,9 +1,9 @@
 // useState
 import { useState } from "react";
 // Register
-import Register from "../component/Register";
+import Register from "./Register";
 // Login
-import Login from "../component/Login";
+import Login from "./Login";
 
 function Welcome() {
   // login

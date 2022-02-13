@@ -1,6 +1,6 @@
-import LeftMenu from "../component/LeftMenu";
-import Header from "../component/Header";
-import CreatePost from "../component/CreatePost";
+import LeftMenu from "../components/LeftMenu";
+import Header from "../components/Header";
+import CreatePost from "../components/CreatePost";
 import { useEffect } from "react";
 
 function CreatePostPage() {

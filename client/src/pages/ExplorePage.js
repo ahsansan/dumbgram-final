@@ -1,6 +1,6 @@
-import LeftMenu from "../component/LeftMenu";
-import Header from "../component/Header";
-import ExplorePost from "../component/ExplorePost";
+import LeftMenu from "../components/LeftMenu";
+import Header from "../components/Header";
+import ExplorePost from "../components/ExplorePost";
 
 function ExplorePage() {
   return (

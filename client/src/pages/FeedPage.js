@@ -1,6 +1,6 @@
-import LeftMenu from "../component/LeftMenu";
-import Header from "../component/Header";
-import Feed from "../component/Feed";
+import LeftMenu from "../components/LeftMenu";
+import Header from "../components/Header";
+import Feed from "../components/Feed";
 import { useEffect } from "react";
 
 function FeedPage() {

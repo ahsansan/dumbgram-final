@@ -1,7 +1,7 @@
-import Profile from "../component/Profile";
-import Header from "../component/Header";
-import FeedProfile from "../component/FeedProfile";
-import LeftMenu from "../component/LeftMenu";
+import Profile from "../components/Profile";
+import Header from "../components/Header";
+import FeedProfile from "../components/FeedProfile";
+import LeftMenu from "../components/LeftMenu";
 import { useEffect, useContext } from "react";
 // React Router Dom
 import { useParams } from "react-router-dom";

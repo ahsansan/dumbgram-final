@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { io } from "socket.io-client";
 
-import Header from "../component/Header";
-import MessageList from "../component/MessageList";
-import MessageDetail from "../component/MessageDetail";
+import Header from "../components/Header";
+import MessageList from "../components/MessageList";
+import MessageDetail from "../components/MessageDetail";
 
 import { Container, Row, Col } from "react-bootstrap";
 

@@ -1,5 +1,5 @@
-import Welcome from "../component/Welcome";
-import Explore from "../component/Explore";
+import Welcome from "../components/Welcome";
+import Explore from "../components/Explore";
 import { useEffect } from "react";
 
 function LandingPage() {
